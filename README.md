@@ -1,6 +1,6 @@
 # 🚚 Delivery System
 
-Sistema completo de pedidos de entrega desenvolvido em Ruby on Rails, similar ao iFood. Este projeto implementa uma solução full-stack com backend API REST e frontend com templates ERB.
+Sistema completo de pedidos de entrega desenvolvido em Ruby on Rails referência ao iFood. Este projeto implementa uma solução full-stack com backend API REST e frontend com templates ERB.
 
 ## 📋 Funcionalidades
 
