@@ -215,7 +215,7 @@ curl http://localhost:3000/api/v1/orders?user_id=123
 
 ### Gems Principais
 - `rails` - Framework principal
-- `sqlite3` - Banco de dados
+- `Postgresql` - Banco de dados
 - `puma` - Servidor web
 - `rspec-rails` - Framework de testes
 - `capybara` - Testes de interface
