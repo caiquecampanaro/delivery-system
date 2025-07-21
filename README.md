@@ -29,7 +29,7 @@ Sistema completo de pedidos de entrega desenvolvido em Ruby on Rails, similar ao
 
 - **Ruby**: 3.3.1
 - **Rails**: 8.0.2
-- **Banco de Dados**: SQLite3 (desenvolvimento)
+- **Banco de Dados**: PostgreSQL
 - **Frontend**: ERB Templates + Bootstrap 5
 - **Testes**: RSpec + Capybara
 - **Validação**: ActiveRecord Validations
@@ -67,7 +67,7 @@ delivery_system/
 ### Pré-requisitos
 - Ruby 3.3.1 ou superior
 - Rails 8.0.2 ou superior
-- SQLite3
+- Postgresql
 
 ### Instalação
 
@@ -179,38 +179,6 @@ curl http://localhost:3000/api/v1/orders?user_id=123
 2. **Criar Pedido**: Formulário com validação completa
 3. **Detalhes**: Visualização completa do pedido
 
-## ✅ Critérios de Avaliação Atendidos
-
-### 1. Corretude ✅
-- ✅ Criação de pedidos funcionando
-- ✅ Consulta por usuário implementada
-- ✅ Todas as validações funcionando
-- ✅ Tratamento de erros completo
-
-### 2. Qualidade do Código ✅
-- ✅ Padrões Rails seguidos
-- ✅ Separação de responsabilidades
-- ✅ Código limpo e bem estruturado
-- ✅ Comentários e documentação
-
-### 3. Cobertura de Testes ✅
-- ✅ Testes unitários (RSpec)
-- ✅ Testes de integração (Capybara)
-- ✅ Cenários de sucesso e erro
-- ✅ Factory Bot para dados de teste
-
-### 4. UI/UX ✅
-- ✅ Interface clara e intuitiva
-- ✅ Design responsivo
-- ✅ Feedback adequado de erros
-- ✅ Navegação fluida
-
-### 5. Tratamento de Erros ✅
-- ✅ Validações no modelo
-- ✅ Mensagens de erro claras
-- ✅ Status HTTP apropriados
-- ✅ Fallbacks para cenários de erro
-
 ## 🔧 Configuração de Desenvolvimento
 
 ### Gems Principais
@@ -233,39 +201,5 @@ spec/
 │   └── orders_spec.rb      # Testes de interface
 └── rails_helper.rb         # Configuração RSpec
 ```
-
-## 📝 Próximos Passos
-
-### Melhorias Futuras
-- [ ] Autenticação de usuários
-- [ ] Sistema de status de pedidos
-- [ ] Integração com APIs de mapas
-- [ ] Notificações em tempo real
-- [ ] Dashboard administrativo
-- [ ] API de rastreamento
-
-### Deploy
-- [ ] Configuração para produção
-- [ ] Banco PostgreSQL
-- [ ] Docker containerization
-- [ ] CI/CD pipeline
-
-## 👥 Contribuição
-
-Este projeto foi desenvolvido como um teste prático seguindo os requisitos especificados. Para contribuir:
-
-1. Fork o projeto
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto é desenvolvido para fins educacionais e de avaliação.
-
----
-
-**Desenvolvido com ❤️ usando Ruby on Rails**
 
 *Sistema de Delivery - Teste Prático para Desenvolvedor*
