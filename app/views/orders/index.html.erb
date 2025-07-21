@@ -6,16 +6,17 @@
   <%= link_to "Novo Pedido", new_order_path, class: "btn btn-primary" %>
 </div>
 
-<!-- Formulário de busca por usuário -->
+<!-- Formulário de busca combinada (ID do usuário OU descrição dos itens) -->
 <div class="card mb-4">
   <div class="card-body">
-    <%= form_with url: orders_path, method: :get, local: true, class: "row g-3 align-items-end" do |form| %>
+    <%= form_with url: orders_path, method: :get, class: "row g-3 align-items-end" do |f| %>
       <div class="col-md-8">
-        <%= form.label :user_id, "Buscar pedidos por ID do usuário:", class: "form-label" %>
-        <%= form.number_field :user_id, value: @user_id, class: "form-control", placeholder: "Digite o ID do usuário", min: 1 %>
+        <%= f.label :search_term, "Buscar por ID do usuário ou descrição dos itens", class: "form-label" %>
+        <%= f.text_field :search_term, value: @search_term, class: "form-control", 
+            placeholder: "Digite o ID do usuário ou termos da descrição (ex: pizza, hambúrguer...)" %>
       </div>
       <div class="col-md-4">
-        <%= form.submit "Buscar", class: "btn btn-outline-primary me-2" %>
+        <%= f.submit "Buscar", class: "btn btn-outline-primary me-2" %>
         <%= link_to "Limpar", orders_path, class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
@@ -23,10 +24,10 @@
 </div>
 
 <!-- Resultados -->
-<% if @user_id.present? %>
+<% if @search_term.present? %>
   <div class="alert alert-info">
     <i class="bi bi-info-circle"></i>
-    Mostrando pedidos para o usuário ID: <strong><%= @user_id %></strong>
+    Resultados para: <strong><%= @search_term %></strong>
   </div>
 <% end %>
 

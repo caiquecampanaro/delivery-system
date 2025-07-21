@@ -14,7 +14,7 @@ Sistema completo de pedidos de entrega desenvolvido em Ruby on Rails referência
 ### Frontend (ERB Templates)
 - ✅ **Interface Moderna**: UI responsiva com Bootstrap 5
 - ✅ **Formulário de Criação**: Interface intuitiva para criar pedidos
-- ✅ **Listagem de Pedidos**: Visualização em cards com busca por usuário
+- ✅ **Listagem de Pedidos**: Visualização em cards com busca avançada por usuário ou descrição dos itens
 - ✅ **Detalhes do Pedido**: Página completa com informações detalhadas
 - ✅ **Validação Frontend**: Validação em tempo real com feedback visual
 - ✅ **Navegação Intuitiva**: Menu de navegação e breadcrumbs
@@ -131,7 +131,8 @@ bundle exec rspec --format documentation
 ### Rotas Web (HTML)
 - `GET /` - Página inicial (lista de pedidos)
 - `GET /orders` - Lista todos os pedidos
-- `GET /orders?user_id=123` - Lista pedidos de um usuário
+- `GET /orders?q[user_id_eq]=123` - Lista pedidos por ID do usuário
+- `GET /orders?q[items_description_cont]=pizza` - Lista pedidos contendo "pizza" na descrição dos itens
 - `GET /orders/new` - Formulário de novo pedido
 - `POST /orders` - Cria novo pedido
 - `GET /orders/:id` - Detalhes do pedido
@@ -175,9 +176,43 @@ curl http://localhost:3000/api/v1/orders?user_id=123
 - **Navegação Intuitiva**: Menu fixo e breadcrumbs
 
 ### Páginas Principais
-1. **Lista de Pedidos**: Cards responsivos com busca por usuário
+1. **Lista de Pedidos**: Cards responsivos com busca avançada
 2. **Criar Pedido**: Formulário com validação completa
 3. **Detalhes**: Visualização completa do pedido
+
+## 🔍 Filtro de Busca Combinado
+
+O sistema implementa um filtro de busca inteligente na listagem de pedidos, permitindo buscar com um único campo por:
+
+- **ID do Usuário**: Filtra pedidos pelo ID exato do usuário
+- **Descrição dos Itens**: Busca pedidos que contenham determinado texto na descrição dos itens
+- **Combinação**: Um único termo pode encontrar correspondências em ambos os campos
+
+### Como Usar
+
+1. Acesse a página de listagem de pedidos (`/orders`)
+2. Utilize o campo de busca no topo da página
+3. Digite o ID do usuário ou termos da descrição dos itens
+4. Clique em "Buscar" para aplicar o filtro
+5. Para limpar o filtro, clique em "Limpar"
+
+### Implementação
+
+O filtro de busca foi implementado de forma inteligente para detectar o tipo de termo buscado:
+
+- Quando o termo é numérico (ex: "123"), busca tanto pelo ID do usuário quanto por descrições contendo esse número
+- Quando o termo é texto (ex: "pizza"), busca apenas nas descrições dos itens
+- A busca é case-insensitive e funciona com correspondência parcial para descrições
+
+Exemplo de URL com filtro:
+```
+/orders?search_term=pizza
+```
+
+Ou para buscar pelo ID do usuário:
+```
+/orders?search_term=123
+```
 
 ## 🔧 Configuração de Desenvolvimento
 

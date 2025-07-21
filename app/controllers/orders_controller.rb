@@ -3,13 +3,10 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    if params[:user_id].present?
-      @orders = Order.by_user(params[:user_id]).recent
-      @user_id = params[:user_id]
-    else
-      @orders = Order.all.recent
-      @user_id = nil
-    end
+    @search_term = params[:search_term]
+    
+    # Usar o método de busca combinada
+    @orders = Order.search_by_term(@search_term).recent
 
     respond_to do |format|
       format.html

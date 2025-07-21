@@ -57,28 +57,66 @@ RSpec.describe "Orders", type: :system do
     it "filters orders by user ID" do
       visit orders_path
 
-      fill_in "Buscar pedidos por ID do usuário:", with: "1"
+      fill_in "search_term", with: "1"
       click_button "Buscar"
 
-      expect(page).to have_content("Mostrando pedidos para o usuário ID: 1")
       expect(page).to have_content("Pizza Margherita")
       expect(page).not_to have_content("Hambúrguer")
+      expect(page).to have_content("Resultados para: 1")
+    end
+    
+    it "filters orders by items description" do
+      visit orders_path
+      
+      fill_in "search_term", with: "Pizza"
+      click_button "Buscar"
+      
+      expect(page).to have_content("Pizza Margherita")
+      expect(page).not_to have_content("Hambúrguer")
+      expect(page).to have_content("Resultados para: Pizza")
+    end
+    
+    it "finds both numeric and text matches with the same term" do
+      # Criar um pedido adicional com user_id 123 e descrição contendo "123"
+      create(:order, user_id: 123, items_description: "Combo 123 - Pizza Especial")
+      
+      visit orders_path
+      
+      # Buscar pelo termo "123" - deve encontrar tanto pelo user_id quanto pela descrição
+      fill_in "search_term", with: "123"
+      click_button "Buscar"
+      
+      expect(page).to have_content("Combo 123 - Pizza Especial")
+      expect(page).to have_content("Usuário: 123")
+      expect(page).to have_content("Resultados para: 123")
     end
 
     it "shows empty state when no orders found" do
-      visit orders_path(user_id: 999)
+      visit orders_path
+      
+      fill_in "search_term", with: "999"
+      click_button "Buscar"
 
       expect(page).to have_content("Nenhum pedido encontrado")
-      expect(page).to have_content("Não há pedidos para o usuário ID: 999")
+      expect(page).to have_content("Resultados para: 999")
     end
 
     it "shows clear button to remove filters" do
-      visit orders_path(user_id: 1)
+      visit orders_path
+      
+      fill_in "search_term", with: "1"
+      click_button "Buscar"
+      
+      # Verificar se o filtro foi aplicado
+      expect(page).to have_content("Pizza Margherita")
+      expect(page).not_to have_content("Hambúrguer")
 
       click_link "Limpar"
 
+      # Verificar se voltou para a listagem completa
       expect(current_path).to eq(orders_path)
-      expect(page).not_to have_content("Mostrando pedidos para o usuário ID:")
+      expect(page).to have_content("Pizza Margherita")
+      expect(page).to have_content("Hambúrguer")
     end
 
     it "displays order cards with correct information" do
@@ -146,12 +184,16 @@ RSpec.describe "Orders", type: :system do
 
   describe "Responsive design" do
     it "displays properly on different screen sizes" do
+      # Criar pedidos para garantir que os cards sejam exibidos
+      create(:order, user_id: 1, items_description: "Pizza Margherita")
+      
       visit orders_path
 
       # Test that Bootstrap classes are present
       expect(page).to have_css(".container")
       expect(page).to have_css(".row")
-      expect(page).to have_css(".col-md-8") # Alterado para uma classe que existe na página
+      expect(page).to have_css(".col-md-6") # Classe usada nos cards de pedidos
+      expect(page).to have_css(".col-lg-4") # Classe usada nos cards de pedidos
     end
   end
 end
