@@ -1,0 +1,121 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>
+    <i class="bi bi-receipt"></i>
+    Detalhes do Pedido #<%= @order.id %>
+  </h2>
+  <div>
+    <%= link_to "Voltar", orders_path, class: "btn btn-outline-secondary me-2" %>
+    <%= link_to "Novo Pedido", new_order_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="bi bi-info-circle"></i>
+          Informações do Pedido
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label text-muted">ID do Usuário</label>
+              <div class="fw-bold">
+                <i class="bi bi-person"></i>
+                <%= @order.user_id %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label text-muted">Data/Hora da Solicitação</label>
+              <div class="fw-bold">
+                <i class="bi bi-calendar"></i>
+                <%= @order.requested_at.strftime("%d/%m/%Y às %H:%M") %>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label text-muted">Endereço de Coleta</label>
+          <div class="fw-bold">
+            <i class="bi bi-geo-alt text-warning"></i>
+            <%= @order.pickup_address %>
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label text-muted">Endereço de Entrega</label>
+          <div class="fw-bold">
+            <i class="bi bi-geo-alt-fill text-success"></i>
+            <%= @order.delivery_address %>
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label text-muted">Descrição dos Itens</label>
+          <div class="fw-bold">
+            <i class="bi bi-box"></i>
+            <%= simple_format(@order.items_description) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="bi bi-currency-dollar"></i>
+          Valor Estimado
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <div class="display-4 text-success fw-bold mb-3">
+          R$ <%= number_with_precision(@order.estimated_value, precision: 2, separator: ',') %>
+        </div>
+        <small class="text-muted">Valor estimado para entrega</small>
+      </div>
+    </div>
+    
+    <div class="card mt-4">
+      <div class="card-header">
+        <h6 class="mb-0">
+          <i class="bi bi-clock"></i>
+          Status do Pedido
+        </h6>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="badge bg-warning text-dark me-2">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+          <div>
+            <div class="fw-bold">Aguardando</div>
+            <small class="text-muted">Pedido criado e aguardando processamento</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card mt-4">
+      <div class="card-header">
+        <h6 class="mb-0">
+          <i class="bi bi-gear"></i>
+          Ações
+        </h6>
+      </div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <%= link_to "Ver Todos os Pedidos", orders_path, class: "btn btn-outline-primary" %>
+          <%= link_to "Pedidos do Usuário #{@order.user_id}", orders_path(user_id: @order.user_id), class: "btn btn-outline-info" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

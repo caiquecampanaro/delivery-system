@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>
+    <i class="bi bi-list-ul"></i>
+    Pedidos de Entrega
+  </h2>
+  <%= link_to "Novo Pedido", new_order_path, class: "btn btn-primary" %>
+</div>
+
+<!-- Formulário de busca por usuário -->
+<div class="card mb-4">
+  <div class="card-body">
+    <%= form_with url: orders_path, method: :get, local: true, class: "row g-3 align-items-end" do |form| %>
+      <div class="col-md-8">
+        <%= form.label :user_id, "Buscar pedidos por ID do usuário:", class: "form-label" %>
+        <%= form.number_field :user_id, value: @user_id, class: "form-control", placeholder: "Digite o ID do usuário", min: 1 %>
+      </div>
+      <div class="col-md-4">
+        <%= form.submit "Buscar", class: "btn btn-outline-primary me-2" %>
+        <%= link_to "Limpar", orders_path, class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Resultados -->
+<% if @user_id.present? %>
+  <div class="alert alert-info">
+    <i class="bi bi-info-circle"></i>
+    Mostrando pedidos para o usuário ID: <strong><%= @user_id %></strong>
+  </div>
+<% end %>
+
+<% if @orders.any? %>
+  <div class="row">
+    <% @orders.each do |order| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+              <i class="bi bi-calendar"></i>
+              <%= order.requested_at.strftime("%d/%m/%Y às %H:%M") %>
+            </small>
+            <span class="badge bg-primary">ID: <%= order.id %></span>
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">
+              <i class="bi bi-person"></i>
+              Usuário: <%= order.user_id %>
+            </h6>
+            
+            <div class="mb-2">
+              <strong><i class="bi bi-geo-alt"></i> Coleta:</strong>
+              <small class="text-muted d-block"><%= truncate(order.pickup_address, length: 50) %></small>
+            </div>
+            
+            <div class="mb-2">
+              <strong><i class="bi bi-geo-alt-fill"></i> Entrega:</strong>
+              <small class="text-muted d-block"><%= truncate(order.delivery_address, length: 50) %></small>
+            </div>
+            
+            <div class="mb-2">
+              <strong><i class="bi bi-box"></i> Itens:</strong>
+              <small class="text-muted d-block"><%= truncate(order.items_description, length: 60) %></small>
+            </div>
+            
+            <div class="mb-3">
+              <strong class="text-success">
+                <i class="bi bi-currency-dollar"></i>
+                R$ <%= number_with_precision(order.estimated_value, precision: 2) %>
+              </strong>
+            </div>
+          </div>
+          <div class="card-footer">
+            <%= link_to "Ver Detalhes", order_path(order), class: "btn btn-sm btn-outline-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="mt-4">
+    <p class="text-muted">
+      <i class="bi bi-info-circle"></i>
+      Total de <%= pluralize(@orders.count, 'pedido', 'pedidos') %> encontrado<%= @orders.count == 1 ? '' : 's' %>.
+    </p>
+  </div>
+<% else %>
+  <div class="text-center py-5">
+    <div class="mb-4">
+      <i class="bi bi-inbox" style="font-size: 4rem; color: #6c757d;"></i>
+    </div>
+    <h4 class="text-muted">Nenhum pedido encontrado</h4>
+    <% if @user_id.present? %>
+      <p class="text-muted">Não há pedidos para o usuário ID: <%= @user_id %></p>
+      <%= link_to "Ver todos os pedidos", orders_path, class: "btn btn-outline-primary me-2" %>
+    <% else %>
+      <p class="text-muted">Comece criando seu primeiro pedido!</p>
+    <% end %>
+    <%= link_to "Criar Pedido", new_order_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

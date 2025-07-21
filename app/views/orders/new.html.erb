@@ -1,0 +1,90 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0">
+          <i class="bi bi-plus-circle"></i>
+          Criar Novo Pedido
+        </h3>
+      </div>
+      <div class="card-body">
+        <%= form_with model: @order, local: true, class: "needs-validation", novalidate: true do |form| %>
+          <% if @order.errors.any? %>
+            <div class="alert alert-danger">
+              <h5>Erro ao criar pedido:</h5>
+              <ul class="mb-0">
+                <% @order.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= form.label :user_id, "ID do Usuário", class: "form-label" %>
+            <%= form.number_field :user_id, class: "form-control", required: true, min: 1 %>
+            <div class="invalid-feedback">
+              Por favor, informe um ID de usuário válido.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :pickup_address, "Endereço de Coleta", class: "form-label" %>
+            <%= form.text_field :pickup_address, class: "form-control", required: true, placeholder: "Ex: Rua das Flores, 123 - Centro" %>
+            <div class="invalid-feedback">
+              Por favor, informe o endereço de coleta.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :delivery_address, "Endereço de Entrega", class: "form-label" %>
+            <%= form.text_field :delivery_address, class: "form-control", required: true, placeholder: "Ex: Av. Principal, 456 - Bairro Novo" %>
+            <div class="invalid-feedback">
+              Por favor, informe o endereço de entrega.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :items_description, "Descrição dos Itens", class: "form-label" %>
+            <%= form.text_area :items_description, class: "form-control", rows: 4, required: true, placeholder: "Descreva os itens a serem entregues..." %>
+            <div class="invalid-feedback">
+              Por favor, descreva os itens a serem entregues.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :estimated_value, "Valor Estimado (R$)", class: "form-label" %>
+            <%= form.number_field :estimated_value, class: "form-control", step: 0.01, min: 0.01, required: true, placeholder: "0.00" %>
+            <div class="invalid-feedback">
+              Por favor, informe um valor estimado válido.
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <%= link_to "Cancelar", orders_path, class: "btn btn-secondary me-md-2" %>
+            <%= form.submit "Criar Pedido", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Bootstrap form validation
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
