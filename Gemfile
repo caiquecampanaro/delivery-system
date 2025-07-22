@@ -9,6 +9,8 @@ gem "pg", ">= 1.4"
 
 # Use Ransack for advanced searching
 gem "ransack", ">= 4.0"
+# Use Kaminari for pagination
+gem "kaminari"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

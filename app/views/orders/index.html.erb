@@ -80,10 +80,15 @@
   </div>
   
   <div class="mt-4">
-    <p class="text-muted">
-      <i class="bi bi-info-circle"></i>
-      Total de <%= pluralize(@orders.count, 'pedido', 'pedidos') %> encontrado<%= @orders.count == 1 ? '' : 's' %>.
-    </p>
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="text-muted">
+        <i class="bi bi-info-circle"></i>
+        Total de <%= pluralize(@orders.total_count, 'pedido', 'pedidos') %> encontrado<%= @orders.total_count == 1 ? '' : 's' %>.
+      </p>
+      <div class="pagination-container">
+        <%= paginate @orders %>
+      </div>
+    </div>
   </div>
 <% else %>
   <div class="text-center py-5">

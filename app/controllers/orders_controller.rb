@@ -5,7 +5,8 @@ class OrdersController < ApplicationController
   def index
     @search_term = params[:search_term]
     
-    @orders = Order.search_by_term(@search_term).recent
+    # Usar o método de busca combinada com paginação
+    @orders = Order.search_by_term(@search_term).recent.page(params[:page]).per(6)
 
     respond_to do |format|
       format.html
