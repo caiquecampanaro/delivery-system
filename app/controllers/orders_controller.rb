@@ -5,7 +5,6 @@ class OrdersController < ApplicationController
   def index
     @search_term = params[:search_term]
     
-    # Usar o método de busca combinada
     @orders = Order.search_by_term(@search_term).recent
 
     respond_to do |format|
