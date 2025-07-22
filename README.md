@@ -87,19 +87,14 @@ delivery_system/
    rails db:migrate
    ```
 
-4. **(Opcional) Popule o banco com exemplos**:
+4.1 **(Opcional) Popule o banco com exemplos**:
    ```bash
    rails db:seed
    ```
 
 Isso irá criar 9 pedidos de exemplo para você testar a listagem, paginação e funcionalidades do sistema.
 
-5. **Inicie o servidor**:
-   ```bash
-   rails server
-   ```
-
-4. **Inicie o servidor**:
+4.2 **Inicie o servidor**:
    ```bash
    rails server
    ```
