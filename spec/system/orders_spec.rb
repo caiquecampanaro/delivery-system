@@ -77,12 +77,10 @@ RSpec.describe "Orders", type: :system do
     end
     
     it "finds both numeric and text matches with the same term" do
-      # Criar um pedido adicional com user_id 123 e descrição contendo "123"
       create(:order, user_id: 123, items_description: "Combo 123 - Pizza Especial")
       
       visit orders_path
       
-      # Buscar pelo termo "123" - deve encontrar tanto pelo user_id quanto pela descrição
       fill_in "search_term", with: "123"
       click_button "Buscar"
       

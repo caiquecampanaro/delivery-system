@@ -60,7 +60,6 @@ RSpec.describe Order, type: :model do
       specific_time = 1.hour.ago
       order = build(:order, requested_at: specific_time)
       order.valid?
-      # Usar be_within para comparar timestamps com tolerância de 1 segundo
       expect(order.requested_at).to be_within(1.second).of(specific_time)
     end
   end
