@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SearchStrategies
   class ItemsDescriptionSearchStrategy < BaseSearchStrategy
     def search(term)

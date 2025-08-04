@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class OrderSearchService
   STRATEGY_TYPES = {
     user_id: SearchStrategies::UserIdSearchStrategy,
