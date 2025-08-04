@@ -187,9 +187,9 @@ curl http://localhost:3000/api/v1/orders?user_id=123
 2. **Criar Pedido**: Formulário com validação completa
 3. **Detalhes**: Visualização completa do pedido
 
-## 🔍 Filtro de Busca Combinado
+## 🔍 Filtro de Busca Inteligente (Strategy)
 
-O sistema implementa um filtro de busca inteligente na listagem de pedidos, permitindo buscar com um único campo por:
+A busca de pedidos utiliza o padrão **Strategy** para oferecer flexibilidade e clareza. O usuário pode buscar por:
 
 - **ID do Usuário**: Filtra pedidos pelo ID exato do usuário
 - **Descrição dos Itens**: Busca pedidos que contenham determinado texto na descrição dos itens
@@ -199,27 +199,28 @@ O sistema implementa um filtro de busca inteligente na listagem de pedidos, perm
 
 1. Acesse a página de listagem de pedidos (`/orders`)
 2. Utilize o campo de busca no topo da página
-3. Digite o ID do usuário ou termos da descrição dos itens
-4. Clique em "Buscar" para aplicar o filtro
-5. Para limpar o filtro, clique em "Limpar"
+3. (Opcional) Escolha a estratégia de busca no dropdown: combinada, apenas por ID, ou apenas por descrição
+4. Digite o termo desejado
+5. Clique em "Buscar" para aplicar o filtro
+6. Para limpar o filtro, clique em "Limpar"
 
-### Implementação
+### Implementação Técnica
 
-O filtro de busca foi implementado de forma inteligente para detectar o tipo de termo buscado:
+O sistema utiliza o padrão Strategy para separar as regras de busca:
 
-- Quando o termo é numérico (ex: "123"), busca tanto pelo ID do usuário quanto por descrições contendo esse número
-- Quando o termo é texto (ex: "pizza"), busca apenas nas descrições dos itens
-- A busca é case-insensitive e funciona com correspondência parcial para descrições
+- **Combinada** (`combined`): Detecta se o termo é numérico (busca por ID) ou texto (busca por descrição)
+- **ID do Usuário** (`user_id`): Busca apenas por ID numérico
+- **Descrição dos Itens** (`items_description`): Busca apenas na descrição dos itens
 
-Exemplo de URL com filtro:
+Exemplo de URLs:
 ```
-/orders?search_term=pizza
+/orders?search_term=pizza                 # Busca combinada (padrão)
+/orders?search_term=123&search_strategy=user_id           # Busca apenas por ID
+/orders?search_term=pizza&search_strategy=items_description # Busca apenas por descrição
 ```
 
-Ou para buscar pelo ID do usuário:
-```
-/orders?search_term=123
-```
+**Para desenvolvedores:**
+Toda a lógica de busca está modularizada em `app/services/order_search_service.rb` e `app/services/search_strategies/`. Novas estratégias podem ser adicionadas facilmente seguindo esse padrão.
 
 ## 🔧 Configuração de Desenvolvimento
 

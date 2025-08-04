@@ -4,9 +4,11 @@ class OrdersController < ApplicationController
   # GET /orders
   def index
     @search_term = params[:search_term]
+    search_strategy = params[:search_strategy]&.to_sym || :combined
     
-    # Usar o método de busca combinada com paginação
-    @orders = Order.search_by_term(@search_term).recent.page(params[:page]).per(6)
+    # Usar o OrderSearchService com estratégia configurável
+    search_scope = OrderSearchService.search_by_term(@search_term, strategy_type: search_strategy)
+    @orders = search_scope.recent.page(params[:page]).per(6)
 
     respond_to do |format|
       format.html

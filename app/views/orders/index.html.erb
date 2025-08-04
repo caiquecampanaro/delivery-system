@@ -6,20 +6,39 @@
   <%= link_to "Novo Pedido", new_order_path, class: "btn btn-primary" %>
 </div>
 
-<!-- Formulário de busca combinada (ID do usuário OU descrição dos itens) -->
+<!-- Formulário de busca com estratégias (Strategy Pattern) -->
 <div class="card mb-4">
   <div class="card-body">
     <%= form_with url: orders_path, method: :get, class: "row g-3 align-items-end" do |f| %>
-      <div class="col-md-8">
-        <%= f.label :search_term, "Buscar por ID do usuário ou descrição dos itens", class: "form-label" %>
+      <div class="col-md-6">
+        <%= f.label :search_term, "Termo de busca", class: "form-label" %>
         <%= f.text_field :search_term, value: @search_term, class: "form-control", 
-            placeholder: "Digite o ID do usuário ou termos da descrição (ex: pizza, hambúrguer...)" %>
+            placeholder: "Digite o termo para busca..." %>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
+        <%= f.label :search_strategy, "Estratégia de busca", class: "form-label" %>
+        <%= f.select :search_strategy, 
+            options_for_select([
+              ['Busca Combinada', 'combined'],
+              ['Apenas ID do Usuário', 'user_id'],
+              ['Apenas Descrição dos Itens', 'items_description']
+            ], params[:search_strategy] || 'combined'), 
+            {}, { class: "form-select" } %>
+      </div>
+      <div class="col-md-3">
         <%= f.submit "Buscar", class: "btn btn-outline-primary me-2" %>
         <%= link_to "Limpar", orders_path, class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
+    
+    <!-- Explicação das estratégias -->
+    <div class="mt-2">
+      <small class="text-muted">
+        <strong>Combinada:</strong> Busca por ID (se numérico) ou descrição | 
+        <strong>ID do Usuário:</strong> Busca apenas por ID numérico | 
+        <strong>Descrição:</strong> Busca apenas na descrição dos itens
+      </small>
+    </div>
   </div>
 </div>
 

@@ -14,13 +14,7 @@ class Order < ApplicationRecord
   scope :recent, -> { order(requested_at: :desc) }
   
   def self.search_by_term(term)
-    return all if term.blank?
-    
-    if term.to_s.match?(/^\d+$/)
-      where(user_id: term).or(where("lower(items_description) LIKE ?", "%#{term.downcase}%"))
-    else
-      where("lower(items_description) LIKE ?", "%#{term.downcase}%")
-    end
+    OrderSearchService.search_by_term(term, scope: all)
   end
 
   private
